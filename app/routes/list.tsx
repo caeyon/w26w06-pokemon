@@ -1,4 +1,5 @@
 import type { Route } from "./+types/list";
+import { Link } from "react-router"
 
 const pokemons = [
     { id: 1, name: "이상해씨", image: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png" },
@@ -27,13 +28,15 @@ export default function List() {
 
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
         {pokemons.map((pokemon) => (
-          <div className="bg-white rounded-xl shadow hover:shadow-md transition
+          <Link 
+            to={`detail/${pokemon.id}`}
+          className="bg-white rounded-xl shadow hover:shadow-md transition
                       p-4 flex flex-col items-center gap-2
                       border border-slate-200 hover:border-yellow-400"
             key={pokemon.id}>
             <img className="w-24 h-24" src={pokemon.image} alt={pokemon.name} />
             <p className="font-semibold text-slate-700">{pokemon.name}</p>
-          </div>
+          </Link>
         ))}
       </div>
     </div>

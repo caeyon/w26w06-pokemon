@@ -8,6 +8,7 @@ type Pokemon = {
   name: string
   types: { name: string }[]
   image: string
+  description?: string
 }
 
 export async function clientLoader({ request }: Route.ClientLoaderArgs) {
@@ -24,11 +25,17 @@ export async function clientLoader({ request }: Route.ClientLoaderArgs) {
       item.language.name === "ko"
   )?.name
 
+  const description = species.data.flavor_text_entries.find(
+    (entry: { language: { name: string } }) => 
+      entry.language.name === "ko"
+  )?.flavor_text
+
   return {
     id,
     name: koreanName || name,
     types: response.data.types,
     image: sprites.other["official-artwork"].front_default,
+    description
   }
 }
 
@@ -49,6 +56,11 @@ export default function Detail({ params }: Route.ComponentProps) {
         <span className="text-xs bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full">
           No. {pokemon.id}
         </span>
+        {pokemon.description && (
+          <p className="mt-4 text-center text-slate-600 max-w-md mx-auto">
+            {pokemon.description}
+          </p>
+        )}
       </div>
     </div>
   )
